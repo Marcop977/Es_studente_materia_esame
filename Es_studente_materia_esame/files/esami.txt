@@ -1,0 +1,1 @@
+Esame [studente=Studente [id=1, nome=Giuseppe Verdi], materia=Materia [codice=102, nome=Scienze], voto=4]
