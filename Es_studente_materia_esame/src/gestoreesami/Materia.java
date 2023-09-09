@@ -22,7 +22,7 @@ public class Materia {
 	}
 	@Override
 	public String toString() {
-		return "Materia [codice=" + codice + ", nome=" + nome + "]";
+		return codice + ". Materia: " + nome;
 	}
 	
 	

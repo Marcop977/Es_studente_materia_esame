@@ -22,7 +22,7 @@ public class Studente {
 	}
 	@Override
 	public String toString() {
-		return "Studente [id=" + id + ", nome=" + nome + "]";
+		return id + ". Nome: " + nome;
 	}
 	
 	
