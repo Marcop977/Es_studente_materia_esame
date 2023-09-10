@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class GestoreEsami {
@@ -14,6 +16,12 @@ public class GestoreEsami {
 		ArrayList<Studente> studenti = new ArrayList<>();
 		ArrayList<Materia> materie = new ArrayList<>();
 		ArrayList<Esame> esami = new ArrayList<>();
+		
+		ArrayList<String> voti = new ArrayList<>();
+		
+		
+//		ArrayList<Integer> voti = new ArrayList<>();
+//		ordinaId(voti);
 
 		File out = new File("files/esami.txt");
 
@@ -87,7 +95,7 @@ public class GestoreEsami {
 //			}
 			
 			while(condizione) {
-				System.out.println("\n1. Visualizza studenti\n2. Inserisci voto agli studenti\n3. Registra studenti su file\n4. Calcola media voti di tutti gli studenti\n5. Calcola media di tutti gli studenti per materia\n6. Visualizza voti studenti per materia\n7. Chiudi il programma\n");
+				System.out.println("1 --> Visualizza studenti\n2 --> Inserisci voto agli studenti\n3 --> Registra studenti su file\n4 --> Calcola media voti di tutti gli studenti\n5 --> Calcola media di tutti gli studenti per materia\n6 --> Visualizza voti studenti per materia\n7 --> Esci");
 				int scelta = s.nextInt();
 				switch(scelta) {
 					case 1:
@@ -101,17 +109,17 @@ public class GestoreEsami {
 						for (Studente studente : studenti) {
 							System.out.println(studente);
 						}
-						System.out.println("Seleziona ID studente:");
+						System.out.println("Seleziona ID studente -->");
 						int sceltaStudente = s.nextInt();
-						System.out.println(studenti.get(sceltaStudente - 1) + "\n");
+						System.out.println(studenti.get(sceltaStudente - 1));
 						System.out.println("Materie:");
 						for (Materia materia : materie) {
 							System.out.println(materia);
 						}
-						System.out.println("Seleziona ID materia:");
+						System.out.println("Seleziona ID materia -->");
 						int sceltaMateria = s.nextInt();
 						System.out.println(materie.get(sceltaMateria - 101));
-						System.out.println("Inserisci voto per " + materie.get(sceltaMateria - 101).getNome() + " allo studente " + studenti.get(sceltaStudente - 1));
+						System.out.println("Inserisci voto per " + materie.get(sceltaMateria - 101).getNome() + " allo studente " + studenti.get(sceltaStudente - 1) + " -->");
 						int voto = s.nextInt();
 						Esame esame = new Esame(studenti.get(sceltaStudente - 1), materie.get(sceltaMateria - 101), voto);
 						esami.add(esame);
@@ -132,7 +140,7 @@ public class GestoreEsami {
 						for (Materia materia : materie) {
 							System.out.println(materia);
 						}
-						System.out.println("Inserisci l'ID della materia:");
+						System.out.println("Inserisci l'ID della materia -->");
 						int materiaScelta = s.nextInt();
 						System.out.println(materie.get(materiaScelta - 101));
 						System.out.println("La media degli studenti in " + materie.get(materiaScelta - 101) + " è: " + calcolaMediaStudentiMateria(esami, materiaScelta));
@@ -141,9 +149,42 @@ public class GestoreEsami {
 						for (Studente studente : studenti) {
 							System.out.println(studente);
 						}
-						System.out.println("Seleziona ID studente di cui visualizzare i voti:");
+						System.out.println("Seleziona ID studente di cui visualizzare i voti -->");
 						int sceltaStudente2 = s.nextInt();
-						System.out.println(mostraVotiStudente(esami, sceltaStudente2));
+						voti.clear();
+						mostraVotiStudente(esami, sceltaStudente2, voti);
+					
+//						Comparator<String> comparatorePerNome = new Comparator<String>() {      //per ordinare (in ordine crescente) in base alla materia
+//					        
+//					        @Override
+//					        public int compare(String materia1, String materia2) {
+//					             String nome1 = materia1.split(":")[1]; // Ottieni il nome dalla stringa
+//					             String nome2 = materia2.split(":")[1]; // Ottieni il nome dalla stringa
+//					             return nome1.compareTo(nome2);
+//					         }
+//					     };
+//
+//					        
+//					    Collections.sort(voti, comparatorePerNome);
+						
+						Comparator<String> comparatorePerVoto = new Comparator<String>() {            //ordine descrescente per voto
+						    @Override
+						    public int compare(String materia1, String materia2) {
+						        // Estrai il voto dalla stringa
+						        int voto1 = Integer.parseInt(materia1.split(": ")[2]);
+						        int voto2 = Integer.parseInt(materia2.split(": ")[2]);
+
+						        // Confronta i voti in modo decrescente
+						        return Integer.compare(voto2, voto1);
+						    }
+						};
+
+						// Usa il comparatore per ordinare la lista di materie
+						Collections.sort(voti, comparatorePerVoto);
+					    
+						for (String voto3 : voti) {
+							System.out.println(voto3);
+						}
 						break;
 					case 7:
 						s.close();
@@ -188,17 +229,68 @@ public class GestoreEsami {
 		return totale / numMaterie;		
 	}
 	
-	public static String mostraVotiStudente(ArrayList<Esame> esami, int idStudente) {
+	public static ArrayList<String> mostraVotiStudente(ArrayList<Esame> esami, int idStudente, ArrayList<String> voti) {
 		String voto = "";
+
 		for (Esame esame : esami) {
 			if(idStudente == esame.getStudente().getId()) {
-				
 				voto = esame.getMateria() + ", voto: " + esame.getVoto();
+				voti.add(voto);
 			}
 			
 		}
-		return voto;
+		return voti;
 	}
+	
+	
+	//ordinamento numeri in arraylist con selection sort
+//	public static void scambia(ArrayList<Integer> v, int posizione1, int posizione2) {      //metodo per scambiare due valori di tipo int
+//		int temp;
+//		temp = v.get(posizione1);
+//		v.set(posizione1, v.get(posizione2));
+//		v.set(posizione2, temp);		
+//	}
+//	
+//	
+//	public static ArrayList<Integer> ordinaId(ArrayList<Integer> a){                        //algoritmo per ordinare in base ad un arraylist di numeri (quindi solo numeri, per l'arraylist voti occorreva altro)
+//		ArrayList<Integer> ordinato = new ArrayList<>(a.size());
+//		
+//		ordinato.addAll(a);
+//		
+//		for(int i = 0; i < ordinato.size() - 1; i++) {
+//			for(int j = i+1; j < ordinato.size(); j++) {
+//				if(ordinato.get(i) < ordinato.get(j)) {
+//					scambia(ordinato, i, j);
+//				}
+//			}
+//		}
+//		
+//		return ordinato;
+//	}
+
+	
+//	public static void scambiaStringhe(ArrayList<String> v, int posizione1, int posizione2) {
+//		String temp;
+//		temp = v.get(posizione1);
+//		v.set(posizione1, v.get(posizione2));
+//		v.set(posizione2, temp);		
+//	}
+//	
+//	
+//	public static ArrayList<String> ordinaStringhe(ArrayList<String> a) {                      //algoritmo per ordinare in base ad un arraylist di stringhe (partendo dalla prima parola)
+//	    ArrayList<String> ordinato = new ArrayList<>(a.size());
+//	    ordinato.addAll(a);
+//
+//	    for (int i = 0; i < ordinato.size() - 1; i++) {
+//	        for (int j = i + 1; j < ordinato.size(); j++) {
+//	            if (ordinato.get(i).compareToIgnoreCase(ordinato.get(j)) < 0) {
+//	                scambiaStringhe(ordinato, i, j);
+//	            }
+//	        }
+//	    }
+//
+//	    return ordinato;
+//	}
 }
 
 
