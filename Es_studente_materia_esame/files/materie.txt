@@ -3,3 +3,5 @@
 103,Storia
 104,Inglese
 105,Informatica
+106,Italiano
+107,Italiano

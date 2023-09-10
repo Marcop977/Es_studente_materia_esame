@@ -1,11 +1,12 @@
 package gestoreesami;
 
 public class Studente {
+	private static int idCorrente = 1;
 	private int id;
 	private String nome;
 	
-	public Studente(int id, String nome) {
-		this.id = id;
+	public Studente(String nome) {
+		this.id = idCorrente++;
 		this.nome = nome;
 	}
 	public int getId() {
@@ -22,7 +23,7 @@ public class Studente {
 	}
 	@Override
 	public String toString() {
-		return id + ". Nome: " + nome;
+		return id + "," + nome;
 	}
 	
 	

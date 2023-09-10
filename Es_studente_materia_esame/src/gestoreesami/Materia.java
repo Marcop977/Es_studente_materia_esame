@@ -1,11 +1,12 @@
 package gestoreesami;
 
 public class Materia {
+	private static int codiceCorrente = 101;
 	private int codice;
 	private String nome;
 	
-	public Materia(int codice, String nome) {
-		this.codice = codice;
+	public Materia(String nome) {
+		this.codice = codiceCorrente++;
 		this.nome = nome;
 	}
 	public int getCodice() {
@@ -22,7 +23,7 @@ public class Materia {
 	}
 	@Override
 	public String toString() {
-		return codice + ". Materia: " + nome;
+		return codice + "," + nome;
 	}
 	
 	
