@@ -95,7 +95,7 @@ public class GestoreEsami {
 //			}
 			
 			while(condizione) {
-				System.out.println("1 --> Visualizza studenti\n2 --> Inserisci nuovo studente\n3 --> Inserisci nuova materia\n5 --> Inserisci voto agli studenti\n6 --> Registra studenti su file\n7 --> Calcola media voti di tutti gli studenti\n8 --> Calcola media di tutti gli studenti per materia\n9 --> Visualizza voti studenti per materia\n0 --> Esci");
+				System.out.println("1 --> Visualizza studenti\n2 --> Visualizza materie\n3 --> Visualizza esami\n4 --> Inserisci nuovo studente\n5 --> Inserisci nuova materia\n6 --> Inserisci voto agli studenti\n7 --> Calcola media voti di tutti gli studenti\n8 --> Calcola media di tutti gli studenti per materia\n9 --> Visualizza voti studenti per materia\n0 --> Esci");
 				int scelta = s.nextInt();
 				switch(scelta) {
 					case 1:
@@ -105,6 +105,18 @@ public class GestoreEsami {
 						}
 						break;
 					case 2:
+						System.out.println("Materie:");
+						for (Materia materia : materie) {
+							System.out.println(materia);
+						}
+						break;
+					case 3:
+						System.out.println("Esami:");
+						for (Esame esame : esami) {
+							System.out.println(esame);
+						}
+						break;
+					case 4:
 						System.out.println("Inserisci nome studente -->");
 						s.nextLine();
 						String nomeStudente = s.nextLine();
@@ -117,7 +129,7 @@ public class GestoreEsami {
 						pwStudenti.close();
 						System.out.println("Studente aggiunto.");
 						break;
-					case 3:
+					case 5:
 						System.out.println("Inserisci nome materia -->");
 						String nomeMateria = s.next();
 						Materia materiaInput = new Materia(nomeMateria);
@@ -127,8 +139,9 @@ public class GestoreEsami {
 							pwMaterie.println(materia);
 						}
 						pwMaterie.close();
+						System.out.println("Materia aggiunta.");
 						break;
-					case 5:
+					case 6:
 						System.out.println("Studenti:");
 						for (Studente studente : studenti) {
 							System.out.println(studente);
@@ -155,14 +168,6 @@ public class GestoreEsami {
 								break;
 							case "n":
 								break;						}
-						break;
-					case 6:
-						PrintWriter pw = new PrintWriter(out);
-						for (Esame esame2 : esami) {
-							pw.println(esame2);
-						}
-						pw.close();
-						System.out.println("Studenti registrati");
 						break;
 					case 7:
 						System.out.println("La media voti di tutti gli studenti è: " + calcolaMediaStudenti(esami));

@@ -5,3 +5,5 @@
 105,Informatica
 106,Italiano
 107,Italiano
+108,Francese
+109,Spagnolo
