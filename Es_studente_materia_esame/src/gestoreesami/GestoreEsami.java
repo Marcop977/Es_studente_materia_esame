@@ -95,7 +95,7 @@ public class GestoreEsami {
 //			}
 			
 			while(condizione) {
-				System.out.println("1 --> Visualizza studenti\n2 --> Visualizza materie\n3 --> Visualizza esami\n4 --> Inserisci nuovo studente\n5 --> Inserisci nuova materia\n6 --> Inserisci voto agli studenti\n7 --> Calcola media voti di tutti gli studenti\n8 --> Calcola media di tutti gli studenti per materia\n9 --> Visualizza voti studenti per materia\n0 --> Esci");
+				System.out.println("1 --> Visualizza studenti\n2 --> Visualizza materie\n3 --> Visualizza esami\n4 --> Inserisci nuovo studente\n5 --> Inserisci nuova materia\n6 --> Inserisci voto agli studenti\n7 --> Calcola media voti studente per ogni materia\n8 --> Calcola media di tutti gli studenti per materia\n9 --> Visualizza voti studenti per materia\n0 --> Esci");
 				int scelta = s.nextInt();
 				switch(scelta) {
 					case 1:
@@ -164,13 +164,23 @@ public class GestoreEsami {
 							case "y":
 								Esame esame = new Esame(studenti.get(sceltaStudente - 1), materie.get(sceltaMateria - 101), voto);
 								esami.add(esame);
+								PrintWriter pw = new PrintWriter(out);
+								for (Esame esame2 : esami) {
+									pw.print(esame2);
+								}
+								pw.close();
 								System.out.println("Esame per " + esame.getStudente().getNome() + " in " + esame.getMateria().getNome() + " superato con un voto di " + esame.getVoto() + ": aggiunto con successo.");
 								break;
 							case "n":
 								break;						}
 						break;
 					case 7:
-						System.out.println("La media voti di tutti gli studenti è: " + calcolaMediaStudenti(esami));
+						for (Studente studente : studenti) {
+							System.out.println(studente);
+						}
+						System.out.println("Inserisci ID dello studente di cui sapere la media:");
+						int idStudente = s.nextInt();
+						System.out.println("La media voti dello studente è: " + calcolaMediaStudenti(esami, idStudente));
 						break;
 					case 8:
 						for (Materia materia : materie) {
@@ -205,10 +215,10 @@ public class GestoreEsami {
 						
 						Comparator<String> comparatorePerVoto = new Comparator<String>() {            //ordine descrescente per voto
 						    @Override
-						    public int compare(String materia1, String materia2) {
+						    public int compare(String esame1, String esame2) {
 						       
-						        int voto1 = Integer.parseInt(materia1.split(": ")[2]);       // dove ci sono ": " divide in sottostringhe
-						        int voto2 = Integer.parseInt(materia2.split(": ")[2]);
+						        int voto1 = Integer.parseInt(esame1.split(": ")[1]);       // dove ci sono ": " divide in sottostringhe
+						        int voto2 = Integer.parseInt(esame2.split(": ")[1]);
 
 						        // Confronta i voti in modo decrescente
 						        return Integer.compare(voto2, voto1);    //se il risultato è negativo, il primo numero viene inserito prima del secondo, altrimenti viene inserito dopo
@@ -235,14 +245,19 @@ public class GestoreEsami {
 	
 }
 
+	
 
-	public static double calcolaMediaStudenti(ArrayList<Esame> esami) {
+	public static double calcolaMediaStudenti(ArrayList<Esame> esami, int idStudente) {
 		double totale = 0;
 		int numEsami = 0;
 
 		for (Esame esame : esami) {
-			totale += esame.getVoto();
-			numEsami++;
+			if(idStudente == esame.getStudente().getId()) {
+				totale += esame.getVoto();
+				numEsami++;
+			}else{
+				System.out.println("Nessuno studente ha dato un esame in questa materia.");
+			}
 		}
 
 		return totale / numEsami;
