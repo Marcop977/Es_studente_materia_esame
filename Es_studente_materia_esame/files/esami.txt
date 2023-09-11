@@ -1,1 +1,1 @@
-Esame [studente=1,Giuseppe Verdi, materia=101,Matematica, voto=9]Esame [studente=2,Gianna Rossi, materia=102,Scienze, voto=9]Esame [studente=3,Michele Strogoff, materia=104,Inglese, voto=6]Esame [studente=1,Giuseppe Verdi, materia=102,Scienze, voto=7]
+Esame [studente=1,Giuseppe Verdi, materia=101,Matematica, voto=9]
